@@ -11,6 +11,10 @@ import (
 	"shorten-url-go/domain/repository"
 )
 
+var (
+	ErrInvalidURL = errors.New("Invalid format, URL must begin with http or https")
+)
+
 type Usecase interface {
 	EncodeURL(string) (string, error)
 	DecodeURL(string) (string, error)
@@ -89,5 +93,5 @@ func (u *usecase) ValidateURL(url string) error {
 		return nil
 	}
 
-	return errors.New("Invalid format, URL must begin with http or https")
+	return ErrInvalidURL
 }

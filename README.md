@@ -14,11 +14,12 @@ This project repository demonstrates an implementation of API-based URL in Go la
    * [Prerequisites](#prerequisites)
    * [Build](#build)
    * [Run](#run)
+   * [Code Coverage](#code-coverage)
    * [Test](#test)	
 
 
 ## Objective
-- [X] Develop a web server application using [Go]((https://golang.org/doc/install) language.
+- [X] Develop a web server application using [Go](https://golang.org/doc/install) language.
 - [X] Generates unique shorten URL of 6 digit alphanumeric characters.
 - [X] Redirect shorten URL to original URL.
 - [X] Provides detail status of shorten URL.
@@ -138,6 +139,55 @@ make run
 ```
 
 2. Open Postman and import [postman collection](docs/postman_collection.json) to hit the API.
+
+### Code Coverage
+Executes following command to perform unit-test and show code coverage result
+```bash
+make test
+```
+
+```bash
+go test ./... -coverprofile=coverage/coverage.out ;\
+go tool cover -func=coverage/coverage.out ;\
+go tool cover -html=coverage/coverage.out ;\
+
+?       shorten-url-go  [no test files]
+ok      shorten-url-go/data/controller  0.005s  coverage: 100.0% of statements
+?       shorten-url-go/data/datasource  [no test files]
+?       shorten-url-go/data/model/controller    [no test files]
+ok      shorten-url-go/data/repository  0.003s  coverage: 100.0% of statements
+?       shorten-url-go/domain/entity    [no test files]
+?       shorten-url-go/domain/repository    [no test files]
+ok      shorten-url-go/domain/usecase   0.004s  coverage: 97.1% of statements
+ok      shorten-url-go/infrastructure/memory    0.002s  coverage: 100.0% of statements
+?       shorten-url-go/mocks/data/datasource    [no test files]
+?       shorten-url-go/mocks/domain/repository  [no test files]
+?       shorten-url-go/mocks/domain/usecase [no test files]
+shorten-url-go/data/controller/url_controller.go:22:    NewURLController        100.0%
+shorten-url-go/data/controller/url_controller.go:26:    Router                  100.0%
+shorten-url-go/data/controller/url_controller.go:33:    Encode                  100.0%
+shorten-url-go/data/controller/url_controller.go:53:    Redirect                100.0%
+shorten-url-go/data/controller/url_controller.go:67:    FindByUrl               100.0%
+shorten-url-go/data/controller/url_controller.go:83:    FindAllUrl              100.0%
+shorten-url-go/data/repository/repository.go:13:        NewRepository           100.0%
+shorten-url-go/data/repository/repository.go:17:        AddURL                  100.0%
+shorten-url-go/data/repository/repository.go:21:        FindURL                 100.0%
+shorten-url-go/data/repository/repository.go:25:        FindAllURL              100.0%
+shorten-url-go/data/repository/repository.go:29:        FindByOriginalURL       100.0%
+shorten-url-go/domain/usecase/generator.go:16:          GenerateShortURL        100.0%
+shorten-url-go/domain/usecase/usecase.go:30:            NewUsecase              100.0%
+shorten-url-go/domain/usecase/usecase.go:34:            EncodeURL               100.0%
+shorten-url-go/domain/usecase/usecase.go:61:            DecodeURL               100.0%
+shorten-url-go/domain/usecase/usecase.go:72:            GetURL                  100.0%
+shorten-url-go/domain/usecase/usecase.go:81:            GetAllURL               100.0%
+shorten-url-go/domain/usecase/usecase.go:85:            ValidateURL             85.7%
+shorten-url-go/infrastructure/memory/url.go:13:         NewURLMemory            100.0%
+shorten-url-go/infrastructure/memory/url.go:17:         Set                     100.0%
+shorten-url-go/infrastructure/memory/url.go:23:         Get                     100.0%
+shorten-url-go/infrastructure/memory/url.go:31:         GetAll                  100.0%
+shorten-url-go/infrastructure/memory/url.go:41:         FindExistingURL         100.0%
+total:                                                  (statements)            98.9%
+```
 
 ### Test
 Run through the API within postman collection to test and validate the application response fulfill requirements and specifications.

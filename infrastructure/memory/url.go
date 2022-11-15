@@ -1,10 +1,9 @@
 package memory
 
 import (
-	"errors"
-
 	"shorten-url-go/data/datasource"
 	"shorten-url-go/domain/entity"
+	"shorten-url-go/domain/repository"
 )
 
 type url struct {
@@ -26,7 +25,7 @@ func (m *url) Get(id string) (*entity.URL, error) {
 		return url, nil
 	}
 
-	return nil, errors.New("URL not found on the system")
+	return nil, domain.ErrURLNotFound
 }
 
 func (m *url) GetAll() ([]entity.URL, error) {
@@ -47,5 +46,5 @@ func (m *url) FindExistingURL(url string) (string, error) {
 		}
 	}
 
-	return "", errors.New("URL not found on the system")
+	return "", domain.ErrURLNotFound
 }

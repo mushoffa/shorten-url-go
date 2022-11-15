@@ -1,0 +1,50 @@
+name: CI Test Application
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Go Executable Client
+        uses: actions/setup-go@v3
+
+      - name: Run Test Command
+        run: make ci-test
+
+      - name: Go Coverage Badge
+        uses: tj-actions/coverage-badge-go@v2
+        with:
+          filename: coverage/coverage.out
+
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v9.1
+        id: verify-changed-files
+        with:
+          files: README.md
+
+      - name: Commit changes
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "chore: Updated coverage badge."
+
+      - name: Push changes
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ github.token }}
+          branch: ${{ github.head_ref }}
+
+      # - name: Archive Code Coverage Result
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: Code-Coverage-Report
+      #     path: coverage/coverage.out
