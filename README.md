@@ -1,4 +1,5 @@
 # URL Shortener
+![Coverage](https://img.shields.io/badge/Coverage-98.9%25-brightgreen)
 This project repository demonstrates an implementation of API-based URL in Go language to create URL shortening web service similar to [Tiny URL](https://tinyurl.com/).
 
 
